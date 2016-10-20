@@ -1,0 +1,144 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node
+{
+    int value;
+    struct node* left;
+    struct node* right;
+};
+int v[100];
+struct node* root;
+struct node* insert(struct node*,int);
+void inorder(struct node*);
+void postorder(struct node*);
+void preorder(struct node*);
+int search(int,struct node*);
+void main()
+{
+    	root = NULL;
+    	int n,opn,ch,res,flag=0;
+	do 
+	{
+		printf("This is a menu driven program\n");
+		printf("1. Create a binary search tree\n");
+		printf("2. Traverse binary search tree in inorder\n");
+  		printf("3. Traverse binary search tree in preorder\n");
+  		printf("4. Traverse binary search tree in postorder\n");
+  		printf("5. Search the binary tree\n");
+		printf("6. Exit\n");
+  		printf("Enter your option\n");
+  		scanf("%d",&opn);
+  		switch (opn) 
+		{
+    			case 1:	printf("Enter the number of nodes\n");
+    				scanf("%d",&n);
+				printf("Enter the data\n");
+				for(int i=0; i<n; i++)
+				{
+					flag=0;
+        				scanf("%d",&v[i]);
+					for(int j=0;j<i;j++)
+					{
+						if(v[j]==v[i])
+							flag=1;
+					}
+					if(flag==1)
+						continue;
+					else
+						root=insert(root,v[i]);
+    				}
+			break;
+			case 2: inorder(root);
+				printf("\n");
+			break;
+			case 3:	preorder(root);
+				printf("\n");
+			break;
+			case 4:	postorder(root);
+				printf("\n");
+			break;
+			case 5:	printf("Enter the element to be searched\n");
+				scanf("%d",&ch);
+				res=search(ch,root);
+				if(res==1)
+					printf("Data found!\n");
+				else
+					printf("Data not found\n");
+		}
+	}
+	while(opn!=6);
+}
+
+
+struct node* insert(struct node* r, int data)
+{
+    	if(r==NULL)
+    	{
+        	r=(struct node*)malloc(sizeof(struct node*)); 
+        	r->value=data;  
+        	r->left=NULL;   
+        	r->right=NULL;
+    	}
+       	else if(data<r->value)
+	{ 
+        	r->left=insert(r->left,data);
+    	}
+   	else 
+	{
+        	r->right=insert(r->right,data);
+    	}
+	return r;
+}
+
+
+void preorder(struct node* root) 
+{
+ 	if (root!=NULL) 
+	{
+  		printf("%d ",root->value);
+  		preorder(root->left);
+  		preorder(root->right);
+ 	}
+	else
+		return;
+}
+
+
+void postorder(struct node* root) 
+{
+ 	if (root!=NULL) 
+	{
+  		postorder(root->left);
+  		postorder(root->right);
+  		printf("%d ",root->value);
+ 	}
+	else
+		return;
+}
+
+
+void inorder(struct node* root) 
+{
+ 	if (root!=NULL) 
+	{
+  		inorder(root->left);
+  		printf("%d ", root->value);
+  		inorder(root->right);
+ 	}
+	else
+		return;
+}
+
+
+int search(int data,struct node* root)
+{	
+	if(root==NULL)
+		return 0;
+	if(root->value==data)
+		return 1;
+        if(root->value>data)
+        	search(data,root->left);
+        else
+                search(data,root->right);
+}
