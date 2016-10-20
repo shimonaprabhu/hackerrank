@@ -1,0 +1,214 @@
+#include <stdio.h> 
+#include <stdlib.h> 
+struct nd 
+        { 
+        char USN[20]; 
+        char branch[20];
+	char phno[20]; 
+        char name[100]; 
+        int sem; 
+        struct nd *link; 
+        }; 
+typedef struct nd node; 
+node *front=NULL;
+ 
+node *getnode() 
+        { 
+        node *p; 
+        p=(node *)malloc(sizeof(node)); 
+        printf("Enter the name\n"); 
+        scanf("%s",p->name); 
+        printf("Enter the branch\n");
+	scanf("%s",p->branch);
+	printf("Enter the phone number\n"); 
+        scanf("%s",p->phno); 
+        printf("Enter the semester\n"); 
+        scanf("%d",&p->sem);  
+        printf("Enter the USN\n"); 
+        scanf("%s",p->USN); 
+        p->link=NULL; 
+        return p; 
+        } 
+
+void insertfront() 
+        { 
+        node *p; 
+        p=getnode(); 
+        if(front==NULL) 
+                front=p; 
+        else 
+                { 
+                p->link=front; 
+                front=p; 
+                } 
+        }
+ 
+void insertend() 
+	{ 
+        node *p,*t; 
+        p=getnode(); 
+        if(front==NULL) 
+                front=p; 
+        else 
+                { 
+                t=front; 
+                while(t->link!=NULL) 
+                        t=t->link; 
+                t->link=p; 
+                } 
+        }
+ 
+void deletefront() 
+        { 
+        node *t;
+	if(front==NULL)
+                printf("Deletion not possible\n");
+
+	else if(front->link==NULL)
+		{
+		free(front);
+		front=NULL;
+		return;
+		} 
+        
+        else 
+                { 
+                t=front; 
+                front=front->link; 
+                free(t); 
+                } 
+        }
+ 
+void deleteend() 
+        { 
+        node *t,*p; 
+	 if(front==NULL)
+                printf("Deletion not possible\n");
+
+	else if(front->link==NULL)
+		{
+		free(front);
+		front=NULL;
+		return;
+		}
+        
+        else 
+                { 
+                t=front; 
+                p=front; 
+                while(t->link!=NULL) 
+                        { 
+                        p=t; 
+                        t=t->link; 
+                        } 
+                p->link=NULL; 
+	        free(t); 
+                } 
+        } 
+
+void display() 
+        { 
+        node *t; 
+        int count=0; 
+        if(front==NULL) 
+                printf("List is empty\n"); 
+        else 
+                { 
+                t=front; 
+                while(t!=NULL) 
+                       { 
+                       printf("NAME:%s\nUSN:%s\nPHONE NUMBER:%s\nSEMESTER:%d\nBRANCH:%s\n",t->name,t->USN,t->phno,t->sem,t->branch); 
+                       t=t->link; 
+                       count++; 
+                       } 
+                } 
+        printf("Number of nodes:%d\n",count); 
+        }
+ 
+void stackimp() 
+	{ 
+        int ch; 
+        node *front=NULL; 
+        printf("1. Pop\n"); 
+        printf("2. Push\n"); 
+        printf("3. Display\n"); 
+        scanf("%d",&ch); 
+        switch(ch) 
+        	{ 
+                case 1: deletefront(); 
+                        break; 
+                case 2:insertfront(); 
+                        break; 
+                case 3:display(); 
+                        break; 
+        	} 
+	}
+ 
+void queueimp() 
+	{ 
+        int ch; 
+        node *front=NULL; 
+        printf("1. Insert\n"); 
+        printf("2. Delete\n"); 
+        printf("3. Display\n"); 
+        scanf("%d",&ch); 
+        switch(ch) 
+        	{ 
+                case 1: insertend(); 
+                        break; 
+                case 2: deletefront(); 
+                        break; 
+                case 3:display(); 
+                        break; 
+        	} 
+	} 
+
+void nnode()
+	{
+	node *front=NULL;
+	int N=0;
+	printf("Enter the number of nodes\n");
+	scanf("%d",&N);
+	for (int i=0;i<N;i++)
+	insertfront();
+	display();
+	}
+
+void main() 
+        { 
+        int choice; 
+        do 
+                { 
+                printf("1. Insert an element in the front\n"); 
+                printf("2. Insert an element at the end\n"); 
+                printf("3. Delete an element in the front\n"); 
+                printf("4. Delete an element from the end\n"); 
+                printf("5. Display the list\n"); 
+                printf("6. Implement stack\n"); 
+                printf("7. Implement queue\n"); 
+		printf("8. Creation of N node list\n");
+                printf("9. Exit\n"); 
+                printf("Enter your choice\n"); 
+                scanf("%d",&choice); 
+                switch(choice) 
+                	{ 
+                        case 1:insertfront(); 
+                               break; 
+                        case 2:insertend(); 
+			       break; 
+                        case 3:deletefront(); 
+                               break; 
+                        case 4:deleteend(); 
+                               break; 
+                        case 5:display(); 
+                               break; 
+                        case 6:stackimp(); 
+                               break; 
+                        case 7:queueimp(); 
+                               break; 
+			case 8:nnode();
+			       break;
+                	} 
+                } 
+                while(choice!=9); 
+        } 
