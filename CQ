@@ -1,0 +1,88 @@
+#include <stdio.h>
+#define MAX 5
+int display();
+int underover();
+int insert();
+char delete();
+int i;
+int count=0;
+int front=-1;
+int rear=-1;
+int choice;
+char Q[MAX];
+void main()
+	{
+	do
+		{
+		printf("This is a menu driven program\n");
+		printf("1.Insert an element\n");
+		printf("2.Delete an element\n");
+		printf("3.Check for underflow or overflow condition\n");
+		printf("4.Display status of circular queue\n");
+		printf("5.Exit\n");
+		printf("Enter your choice\n");
+		scanf("%d",&choice);
+		switch(choice)
+			{
+			case 1:insert();
+			       break;
+			case 2:delete();
+			       break;
+			case 3:underover();
+			       break;
+			case 4:display();
+			       break;
+			}
+		}
+	while(choice!=5);
+	}
+int display()
+	{
+	int j=0;
+	if(count==0)	
+		printf("Empty queue\n");
+	else
+		{
+		for(i=(front+1)%MAX;j<count;i=(i+1)%MAX,j++)	
+			printf("%c\n",Q[i]);
+		}
+	return 0;
+	}
+int underover()
+	{
+	if(count==0)
+		printf("Underflow condition has occurred\n");
+	else if(count==MAX)
+		printf("Overflow condition has occurred\n");
+	else
+		printf("Normal queue\n");
+	return 0;
+	}
+int insert()
+	{
+	char val;
+	if(count==MAX)
+		printf("Insertion not possible, overflow condition occurs\n");
+	else
+		{
+		printf("Enter value to be inserted\n");
+		scanf("\n%c",&val);
+		rear=(rear+1)%MAX;
+		Q[rear]=val;
+		count++;
+		}
+	return 0;
+	}
+char delete()
+	{
+	char ele;
+	if(count==0)
+		printf("Deletion not possible, underflow condition occurs\n");
+	else
+		{
+		front=(front+1)%MAX;
+		ele=Q[front];
+		count--;
+		}
+	return ele;
+	}
