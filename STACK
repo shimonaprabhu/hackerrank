@@ -1,0 +1,112 @@
+#include <stdio.h>
+#define MAX 10
+int push(int);
+int pop(void);
+int palin(void);
+int underover(void);
+int display(void);
+int choice;
+int k;
+int arr[MAX];
+int A[MAX];
+int top=-1;
+int flag=1;
+int i;
+void main()
+	{
+	do
+
+	{
+		printf("This is a menu driven program\n");
+		printf("1. Push an element on to stack\n");
+		printf("2. Pop an element from stack\n");
+		printf("3. Check for palindrome using stack\n");
+		printf("4. Check for underflow and overflow\n");
+		printf("5. Display current status of stack\n");
+		printf("6. Exit\n");
+		printf("Enter your choice\n");
+		scanf("%d",&choice);
+		switch(choice)
+			{
+				case 1:
+					{
+						int ele;
+						printf("Enter number to be pushed\n");
+						scanf("%d",&ele);
+						push(ele);
+					}
+				break;
+			case 2 : pop();
+				break;
+			case 3 : palin();
+				break;
+			case 4: underover();
+				break;
+			case 5: display();
+				break;
+			}
+}
+while(choice!=6);
+}
+
+int push(int ELEM)
+	{
+		if(top==MAX-1)
+			printf("Stack overflow!\n");
+		else
+			A[++top]=ELEM;
+		return 0;
+	}
+
+int pop()
+	{
+		int popele;
+		if(top==-1)
+			printf("Stack underflow!\n");
+		else
+			popele=A[top--];
+		printf("Popped element is\n%d\n",popele);
+		return popele;
+      	}
+int underover()
+	{
+		if(top==-1)
+			printf("Stack underflow!\n");
+		else if (top>=MAX)
+			printf("Stack overflow!\n");
+		else
+			printf("No underflow or overflow ocurred\n");
+		return 0;
+	}
+int palin()
+	{
+		int a,n;
+		top=-1;
+		printf("Enter the number of elements\n");
+		scanf("%d",&n);
+		printf("Enter the elements\n");
+		for(i=0;i<n;i++)
+			{
+				scanf("%d",&a);
+				push(a);
+				arr[i]=a;
+			}
+		for(i=top,k=0;i>=0;i--,k++)
+			{
+				if(pop()!=arr[k])
+					{	
+						flag=0;
+					}
+			}
+		if(flag==0)
+			printf("IT IS NOT A PALINDROME\n");
+		else
+			printf("IT IS A PALINDROME\n");
+	}
+	
+int display()
+	{
+		printf("Stack elements are\n");
+		for(i=top;i>=0;i--)
+			printf("%d\n",A[i]);
+	}
