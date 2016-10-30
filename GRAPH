@@ -1,0 +1,136 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define MAX 100
+int a[MAX][MAX];
+int visited[MAX*2];
+int visitednext[MAX*2];
+int q[MAX];
+int i,j;
+int n;
+
+void create()
+{	
+	printf("Enter the number of nodes\n");
+	scanf("%d",&n);
+	for(i=1;i<=n;i++)
+	{
+		for(j=1;j<=n;j++)
+		{
+			scanf("%d",&a[i][j]);
+		}
+	}
+}
+
+void display()
+{
+	printf("\nThe adjacency matrix is as follows\n\n");
+	for(i=1;i<=n;i++)
+        {
+                for(j=1;j<=n;j++)
+                {
+                        printf("%d ",a[i][j]);
+                }
+		printf("\n");
+        }
+	printf("\n");
+
+}
+
+
+void bfs(int source)
+{
+        int u,v,flag=0,r=0,f=0;
+        for(i=1;i<=n;i++) 
+                visited[i]=0;
+        q[r]=source; 
+        visited[source]=1;
+        while(f<=r)
+        {
+                u=q[f++];
+                for(v=1;v<=n;v++)
+                {
+                        if(a[u][v]==1&&visited[v]==0)
+                        {
+                                visited[v]=1;
+                                q[++r] =v;
+                        }
+                }
+        }
+        for(i=1;i<=n;i++)
+        {
+                if(visited[i]==1)
+                {
+                        flag++;
+                }
+        }
+                if(flag!=n)
+                {
+                        for(i=0;i<flag;i++)
+                                printf("%d ",q[i]);
+                        printf("\nNot possible, rest of the nodes are not reachable\n");
+                }
+                else
+                {
+                        for(i=0;i<n;i++)
+                                printf("%d ",q[i]);
+                }
+        printf("\n");
+}
+
+
+void dfs(int i)
+{
+    	int j;
+    	printf("%d ",i);
+    	visitednext[i]=1;
+	for(j=1;j<=n;j++)
+	{
+       		if(visitednext[j]==0&&a[i][j]==1)
+            		dfs(j);
+	}
+}
+
+void main()
+{
+ 	int choice,s,check=0;
+        do
+        {
+                printf("This is a menu driven program\n");
+                printf("1. Create a graph\n");
+                printf("2. Print the nodes in BFS format\n");
+		printf("3. Print the nodes in DFS format\n");
+                printf("4. Exit\n");
+                printf("Enter Your Choice\n");
+                scanf("%d",&choice);
+                switch(choice)
+                {
+                        case 1:  create();
+				 display();
+                        break;
+                        case 2:  for(i=1;i<=n;i++)
+                                        visitednext[i]=0;
+                                 printf("Enter source\n");
+                                 scanf("%d",&s);
+				 printf("BFS traversed reachable nodes:\n");
+				 bfs(s);
+                        break;
+			case 3:	 check=0;
+				 for(i=1;i<=n;i++)
+					visitednext[i]=0;
+				 printf("Enter source\n");
+				 scanf("%d",&s);
+				 printf("DFS traversed reachable nodes:\n");
+				 dfs(s);
+				 printf("\n");
+				 for(i=1;i<=n;i++)
+				 {
+					if(visitednext[i]==1)
+						check++;
+				 }
+				 if(check!=n)
+					printf("Not possible, rest of the nodes cannot be reached!\n");
+			break;
+                }
+        }
+        while(choice!=4);
+}
