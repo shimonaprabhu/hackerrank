@@ -1,0 +1,61 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+int k=0;
+int key[100];
+int n, m;
+int *ht, hashindex;
+int htin[100];
+int elecount = 0;
+
+
+void createHashTable()
+{
+        int i;
+	ht=(int*)malloc(m*sizeof(int));
+	if(ht==NULL)      
+		printf("Unable to create the hash table\n");
+        else
+	{
+                for(i=0;i<m;i++)
+                	ht[i] = -1;
+	}
+}
+
+
+void insertIntoHashTable(int key)
+{
+    	hashindex=key%m;
+        while(ht[hashindex]!=-1)
+        {
+        	hashindex=(hashindex+1)%m;
+	}
+        ht[hashindex]=key;
+	htin[k]=hashindex;
+	printf("(%d)-->[%d]\n",htin[k],ht[hashindex]);
+        elecount++;k++;
+}
+
+
+void main()
+{
+        int i;
+        printf("Enter the number of employee  records\n");
+        scanf("%d",&n);
+	printf("Enter the key for employee records\n");
+        for(i=0;i<n;i++)
+           	scanf("%d",&key[i]);
+	printf("Enter the memory location\n");
+                scanf("%d",&m);
+	createHashTable();
+	printf("The hash table is as follows\n");
+        for(i=0; i<n; i++)
+        {
+          	if(elecount==m)
+                {
+          		printf("\nHash table is full\n");
+                        break;
+                }
+                insertIntoHashTable(key[i]);
+        }
+}
